@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>myTest</title>
+	<script src="jquery-3.2.0.min.js"></script>
+	<link href="mytest.css" rel="stylesheet" type="text/css" />
+	
+</head>
+<body>
+	
+	<header>
+		<h1> Human Question Answering Visualising System </h1>
+	</header>
+
+<br>
+<br>
+
+<div class = "import">
+	<script >
+
+		$(function(){
+		var _MyData;
+		$(".importData").click(function(){
+			$.get('dev-v1.1.json',function(data){
+   				_MyData = eval("("+data+")");
+   				//debugger
+				console.log('it worked!');
+				alert('Finish Import Data');
+				setArticle();
+				//$(".choose1 select").change();
+			});
+		});
+
+
+
+
+
+		var c_paragraph = {};
+		var item2 ="";
+
+		var except = new Array("a","an","the","if","at","for","in","on","and","of","to","it","by","is","be","as","are");
+		var except1 = new Array(" a "," an "," the "," if "," at "," for "," in "," on "," and "," of "," to "," it "," by "," is "," be"," as "," are ")
+
+		$(".choose1 select").change(function(){
+			$(".choose1 button").click();
+		})
+
+		$(".choose1 button").click(function(){
+			if(_MyData){
+				var _selectValue = $(".choose1 select").val();
+
+				for(var i = 0 ; i < _MyData.data.length ; i ++){
+					var item1 = _MyData.data[i];
+					if(_selectValue == item1.title){
+						var paragraph = item1.paragraphs[0];
+						c_paragraph = paragraph; 
+						var content = c_paragraph.context;
+						$(".article p").text(content);
+						setQuestion(paragraph.qas);
+						$(".question select").change();
+						
+					}
+				}
+			}else{
+				alert("Please Import Data!");
+			}
+		});
+
+		$(".question select").change(function(){
+			$(".question button").click();
+		})
+
+
+		$(".question button").click(function(){
+			if(_MyData){
+				var _selectValue = $(".choose1 select").val();
+
+				//var qas = [];
+				var qas = c_paragraph.qas; 
+				var _question = $(".question select").val();
+
+				
+				for(var i = 0 ; i < qas.length;  i ++){
+					//var item = _MyData.data[i];
+					item2 = qas[i];	
+
+					if(_question == item2.id){
+						$(".final .answer p").text(item2.answers[0].text);
+						break;
+					}
+				}
+					var content = c_paragraph.context;
+					$(".article p").text(content); 
+					$(".final .Verbs p").text("");
+					$(".final .Noun p").text("");
+
+			}else{
+				alert("Please Import Data!");
+			}
+		});
+
+
+
+		$(".showAnswer").click(function(){
+				if(_MyData){
+					showAnswer();
+				}else{
+					alert("Please Import Data!");
+				}
+
+		})
+
+		$(".showMoreFeatures").click(function(){
+			if(_MyData){
+				var newText= showAnswer();
+				showMoreFeatures(newText);
+			}else{
+					alert("Please Import Data!");
+				}
+				
+		})
+
+			function showAnswer(){
+
+				var answerWords = $(".final .answer p").text();
+				var text= $(".article p").text(); 
+
+				var txt1 = answerWords;
+				//console.log(txt1);
+				var txt2 = '<span style = "background-color:yellow">' + txt1 + '</span >'
+				var reg = new RegExp(txt1,"g")
+				text = text.replace(reg ,txt2)
+
+				$(".article p").html(text) 
+				return text;
+
+			};
+
+			function showMoreFeatures(text){
+
+
+				var qus = item2.question;
+				//var answerWords = $(".final .answer p").text();  
+				var newCheckQus = new Array();
+				var subQus= qus.substr(0,qus.length-1);
+				//console.log(subQus);
+				var checkQus1 = subQus.split(" ");
+				var checkQus = new Array();
+				
+				for(var j =0; j < checkQus1.length;j++){
+					// checkQus[j] = " "+checkQus1[j] + " ";
+					 // checkQus[j] = checkQus1[j];
+					 if(except.indexOf(checkQus1[j]) >-1){
+					 	//debugger
+					 	//console.log("hahaha")
+					 	checkQus[j] = " "+checkQus1[j] + " ";
+					 }else{
+					 	checkQus[j] = checkQus1[j];
+					 }
+					 
+				}  
+				debugger;
+				console.log(checkQus);
+				
+				for(var i =0; i < checkQus.length; i++){
+					
+					if(except1.indexOf(checkQus[i]) >-1  ){
+						continue	
+					}else{
+						//debugger
+						console.log(checkQus[i])
+						var txt2 = '<span style = "background-color:#2ECCFA">' + checkQus[i] + '</span >'
+						var reg = new RegExp(checkQus[i] ,"g")
+						//debugger;
+						//console.log(reg);
+						text = text.replace(reg ,txt2)
+					}	
+					}
+
+					$(".article p").html(text)
+			}
+
+
+
+		function setArticle(){
+		
+				var _select = $(".choose1 select");
+				_select.empty();
+				for(var i = 0 ; i < _MyData.data.length ; i ++){
+					var item = _MyData.data[i];
+					var _option = $("<option>");
+					_option.attr("value",item.title);
+					_option.text(item.title);
+					_select.append(_option);
+				}
+
+		}
+		function setQuestion(data){
+				var _select = $(".question select");
+				_select.empty();
+				for(var i = 0 ; i < data.length ; i ++){
+					//debugger
+					console.log(data)
+					var item = data[i];
+					var count = 0
+					//count ++;
+					//console.log(count)
+					var _option = $("<option>");	
+					_option.attr("value",item.id);
+					_option.text(item.question);
+					_select.append(_option);
+
+				}
+			}
+
+
+		var _MyNoun="";
+		var _quse="";
+		var _ans = "";
+		var _ansS ="";
+
+
+		$(".showNoun").click(function(){
+				$.get('nouns.json',function(data){
+   				_MyNoun = eval("("+data+")");
+   				debugger
+				console.log('it worked! it worked!');
+				console.log(_MyNoun.results)
+				var _question = item2.question;
+				console.log(_question)
+
+				for(var i = 0; i < _MyNoun.length; i++){
+					//debugger;
+					//console.log("hahaha")
+					var _quse = _MyNoun[i].question+"?";
+					//console.log(_quse)
+					if( _quse == _question){
+					//	debugger;
+					//	console.log("hahaha")
+						_ans = _MyNoun[i].nouns;
+						console.log(_ans)
+						_ansS = _ans.split(" ");
+					}
+
+				}
+				console.log(_ansS)
+				$(".final .Noun p").text(_ansS);
+				showNouns(_ansS);
+			})
+
+			function showNouns(_ansS){
+				var newText= showAnswer();
+				//newTextS = 
+
+
+
+					for (var i=0;i<_ansS.length; i++ ){
+					var txt2 = '<span style = "background-color:#01DF3A">' + _ansS[i] + '</span >'
+					var reg = new RegExp(_ansS[i] ,"g")
+					newText = newText.replace(reg ,txt2)	
+					}
+
+
+
+						debugger;
+						//console.log(reg);
+				
+				
+				$(".article p").html(newText)
+				return newText;
+			}
+
+
+
+		var _MyVerb;
+		$(".showVerb").click(function(){
+				$.get('verb.json',function(data){
+   				_MyVerb = eval("("+data+")");
+   				debugger
+				console.log('it worked! it worked! it worked');
+
+				//compareNouns(qus);
+				var _question = item2.question;
+				console.log(_question)
+				for(var i = 0; i < _MyVerb.length; i++){
+					var _quse = _MyVerb[i].question+"?";
+
+					if( _quse == _question){
+						debugger;
+						var _verb = _MyVerb[i].verb;
+						console.log(_verb)
+						//
+						var _verbS = _verb.split(" ");
+						for(var j =0; j<_verbS.length; j++){
+							if(except.indexOf(_verbS[j]) >-1){
+								//debugger
+					 			//console.log("hahaha")
+					 			_verbS[j] = " "+_verbS[j]+" ";
+							}else{
+								_verbS[j] = _verbS[j];
+							}
+						}
+
+						console.log(_verbS)
+					}
+
+				}
+				$(".final .Verbs p").text(_verbS);
+				var newText= showNouns(_ansS);
+				showVerb(_verbS, newText);
+
+			})
+
+		})
+
+		function showVerb(verbS,newText){
+				
+				//newTextS = 
+					for (var i=0;i<verbS.length; i++ ){
+					var txt2 = '<span style = "background-color:#FF00FF">' + verbS[i] + '</span >'
+					var reg = new RegExp(verbS[i] ,"g")
+					newText = newText.replace(reg ,txt2)	
+					}
+						//debugger;
+						//console.log(reg);
+				
+				$(".article p").html(newText)
+				//break;
+				//return newText;
+			}
+
+
+
+
+	})
+
+
+	});
+
+	</script>
+
+	<button class = "importData" type = "button"> Import Data </button>
+</div>
+<br>
+<div class="choose1">
+
+	<label for="choose article"> Choose one article:</label>
+	
+	<select>
+  		<option value ="choose article">  </option>
+
+	</select>		
+ 
+<button class = "button" type = "button"> 
+	Submit
+</button> 
+
+</div>
+
+<div class = "article">
+	<p>
+		
+	</p>
+</div>
+
+<div class = "question">
+
+	<label for="choose article"> Choose a question:</label>
+
+	<select>
+		  <option value ="choose question">  </option>
+	</select>		
+
+<button class = "button" type = "button"> 
+	Submit
+</button> 
+
+</div>
+<br>
+<br>
+
+
+
+<div class ="final">
+	<div class= "answer">
+		<label for="show answer "> <strong> Answer is</strong> (yellow)<strong>:</strong> </label>
+		<p>  </p>
+		<div>
+		<button class = "showAnswer" type = "button1" >
+ 		Show Answer in article
+		</button>
+
+
+<!--  		<button class = "showMoreFeatures" type = "button2" >
+		Show all features in article
+		</button>  -->
+
+		<button class = "showNoun" type = "button2" >
+		Show Nouns in article
+		</button>
+
+		<button class = "showVerb" type = "button2" >
+		Show Verbs in article
+		</button>
+		</div>	
+
+	</div>
+		
+	<div class="Noun">
+		<label for="show nouns"><strong> Nouns are </strong> (green)<strong>:</strong></label>
+		<p> </p> 
+	</div>
+	
+	<div class= "Verbs" >
+		<label for="show verbs"><strong> Verbs are</strong>(pink)<strong>:</strong></label>
+		<p>  </p> 
+	</div>
+
+	
+	<br>	
+	</br>
+	<br>	
+	</br>
+	<br>	
+	</br>
+	<br>	
+	</br>
+	
+</div>
+
+ <div id="footer">Footer Section</div> 
+
+
+</body>
+
+
+</html>

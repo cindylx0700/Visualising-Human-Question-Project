@@ -1,0 +1,240 @@
+body{
+	font-family: arial;
+	margin:0;
+}
+
+header{
+	
+	background-image:url(./image6.jpg);
+	background-size: 100% 120%;
+	background-repeat:no-repeat;
+	padding: 45px;
+	margin-bottom: 20px；
+}
+
+header h1{
+	margin:0;
+	color:white;
+}
+
+button{
+	background-color: #D8D8D8; 
+    border: none;
+    color: black;
+    padding: 15px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-left:40px;	
+}
+
+.choose1{
+	margin:20p
+}
+
+.choose1 label{
+	text-align:left;
+	padding:40px 0px 0px 25px;
+	margin-bottom:20px;	
+}
+
+.choose1 select{
+	padding:8px 8px 8px 8px;
+	width: 350px;
+}
+
+.article p{
+	margin:30px;
+  	border:3px solid #D8D8D8;
+  	line-height: 150%;
+  	letter-spacing:1px;
+}
+
+
+.question{
+	margin-left:20px;
+}
+
+.question label{
+	text-align:left;
+	margin-bottom:40px;	
+	padding:60px 0px 0px 25px;
+
+}
+
+.question select{
+	padding:8px 0px 8px 8px;
+	width: 600px;
+}
+
+.question button{
+	display:none
+}
+
+.final{
+	margin-left:45px;
+}
+
+.Noun label{
+    position: relative;
+    top: 25px;
+
+}
+
+.Verbs label{
+    position: relative;
+    top: 35px;
+}
+
+.final label{
+	display: inline-block;
+/* 	position: relative;
+    top: 30px; */
+}
+
+.answer button{
+	border: none;
+    color: black;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    margin-left:15px;	
+    position: relative;
+    top: -8px;
+    left:20px;
+}
+
+.showAnswer{
+	/* background-color: #D8D8D8;  */
+    border: none;
+    color: black;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    margin-left:15px;	
+    position: relative;
+    top: -8px;
+    left:20px;
+    /* background-color: #A9BCF5; */
+} 
+
+/* .showNoun{
+	position: relative;
+    top: -100px;
+    left:20px;
+}
+
+.showVerb{
+	position: relative;
+    top: -10px;
+    left:20px;
+} */
+
+
+.Noun p{
+	position: relative;
+    left: 160px;
+    bottom:7px;
+}
+
+.Verbs p{
+	position: relative;
+    left: 160px;
+    bottom:0px;
+}
+
+.answer p{
+	position: relative;
+    left: 160px;
+    bottom:33px;
+}
+
+
+/* .showAnswer{
+	background-color: #D8D8D8; 
+    border: none;
+    color: black;
+    padding: 10px 20px;
+    font-size: 12px;
+    position: relative;
+    top: 60px;
+    left:20px;
+
+} 
+ */
+
+
+
+
+.showMoreFeatures{
+	font-size: 15px;
+	padding: 10px 20px;
+/* 	background-color: #A9BCF5; */
+
+/* 	position: relative;
+    top: 50px;
+    left:80px; */
+}
+
+.showNoun{
+	font-size: 15px;
+	padding: 10px 20px;
+/* 	background-color: #A9BCF5; */
+
+	position: relative;
+    top: 5px;
+    left:30px; 
+}
+
+.showVerb{
+	font-size: 15px;
+	padding: 10px 20px;
+/* 	background-color: #A9BCF5; */
+
+	position: relative;
+    top: 5px;
+    left:30px; 
+}
+
+
+.footer {
+			position: relative;
+			top:5000px;
+			bottom: 0;
+			width: 100%;
+			height: 60px;
+			background: #6cf;
+			clear:both;
+}
+
+
+
+/* .multianswer{
+	width: 250px;
+	margin: 20px 100px;
+	position: relative;
+	margin-left:550px;	
+	position: relative;
+	top: 58px;
+}
+
+.multifeature{
+	width: 250px;
+	margin: 20px 100px;
+	margin-left:750px;	
+	position: relative;
+	top: 20px;
+}
+
+.checkAnswer{
+	width: 250px;
+	margin: 20px 100px;
+	margin-left:750px;	
+	position: relative;
+	top: 60px;
+} */
